@@ -78,16 +78,18 @@ HashMap *createMap(long capacity) {
 void eraseMap(HashMap *map, char *key) {}
 
 Pair *searchMap(HashMap *map, char *key) {
+  // se hace casi lo mismo que en insert
   long i = hash(key, map->capacity);
-
+  // en el while cuando vemos que las kkeys son la misma, se detiene el while
   while (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
     if (strcmp(map->buckets[i]->key, key) == 0) {
       break;
     }
     i = (i + 1) % map->capacity;
   }
+  // y solo basta actualizar el current y retornar el elemento buscado
   map->current = i;
-    
+
   return map->buckets[i];
 }
 
