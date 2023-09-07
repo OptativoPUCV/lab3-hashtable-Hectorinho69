@@ -43,10 +43,9 @@ void insertMap(HashMap *map, char *key, void *value) {
   long i = hash(key, map->capacity);
   // obtener un contador para moverse por el arreglo, usando la funcion hash
 
-  // while avanza hasta encontrar espacio disponible, de haberlo
+  // while avanza hasta encontrar espacio disponible
   while (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
     // se usa strcmp para comparar dos strings y si son iguales retorna 0
-    // esto para que no se repitan las keys (manejo de colisiones)
     if (strcmp(map->buckets[i]->key, key) == 0) {
       return;
     }
@@ -78,7 +77,18 @@ HashMap *createMap(long capacity) {
 
 void eraseMap(HashMap *map, char *key) {}
 
-Pair *searchMap(HashMap *map, char *key) { return NULL; }
+Pair *searchMap(HashMap *map, char *key) {
+  long i = hash(key, map->capacity);
+
+  while (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
+    if (strcmp(map->buckets[i]->key, key) == 0) {
+      break;
+    }
+    i = (i + 1) % map->capacity;
+  }
+    
+  return map->buckets[i];
+}
 
 Pair *firstMap(HashMap *map) { return NULL; }
 
