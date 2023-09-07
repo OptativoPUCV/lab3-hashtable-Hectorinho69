@@ -39,16 +39,37 @@ int is_equal(void *key1, void *key2) {
   return 0;
 }
 
-void insertMap(HashMap *map, char *key, void *value) {}
+void insertMap(HashMap *map, char *key, void *value) {
+  long i = hash(key, map->capacity);
+  // obtener un contador para moverse por el arreglo, usando la funcion hash
+  
+  //while avanza hasta encontrar espacio disponible, de haberlo
+  while (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
+    // se usa strcmp para comparar dos strings y si son iguales retorna 0
+    // esto para que no se repitan las keys (manejo de colisiones)
+    if (strcmp(map->buckets[i]->key, key) == 0) {
+      return;
+    }
+    i = (i+1) % map->capacity;
+  }
+
+  Pair* newPair = createPair(key, value);
+  map->buckets[i] = newPair;
+  map->size++;
+  map->current=i;
+  
+  
+}
 
 void enlarge(HashMap *map) {
   enlarge_called = 1; // no borrar (testing purposes)
 }
 
 HashMap *createMap(long capacity) {
+  // reservar memoria para el mapa y los buckets
   HashMap *newMap = (HashMap *)malloc(sizeof(HashMap));
   newMap->buckets = (Pair **)malloc(sizeof(Pair *) * capacity);
-  //inicializar variables dentro del mapa
+  // inicializar variables dentro del mapa
   newMap->size = 0;
   newMap->capacity = capacity;
   newMap->current = -1;
