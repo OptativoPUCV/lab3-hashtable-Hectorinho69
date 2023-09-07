@@ -42,23 +42,22 @@ int is_equal(void *key1, void *key2) {
 void insertMap(HashMap *map, char *key, void *value) {
   long i = hash(key, map->capacity);
   // obtener un contador para moverse por el arreglo, usando la funcion hash
-  
-  //while avanza hasta encontrar espacio disponible, de haberlo
+
+  // while avanza hasta encontrar espacio disponible, de haberlo
   while (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
     // se usa strcmp para comparar dos strings y si son iguales retorna 0
     // esto para que no se repitan las keys (manejo de colisiones)
     if (strcmp(map->buckets[i]->key, key) == 0) {
       return;
     }
-    i = (i+1) % map->capacity;
+    i = (i + 1) % map->capacity;
   }
-
-  Pair* newPair = createPair(key, value);
+  // luego de hallarse el espacio, se ingresan los valores a un par nuevo
+  Pair *newPair = createPair(key, value);
   map->buckets[i] = newPair;
+  // y se ajustan las variables del mapa
   map->size++;
-  map->current=i;
-  
-  
+  map->current = i;
 }
 
 void enlarge(HashMap *map) {
