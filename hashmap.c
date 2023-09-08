@@ -45,7 +45,7 @@ void insertMap(HashMap *map, char *key, void *value) {
 
   // while avanza hasta encontrar espacio disponible
   while (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
-    // se usa strcmp para comparar dos strings y si son iguales retorna 0
+    // se usa strcmp para comparar dos strings y si son iguales retorna
     if (strcmp(map->buckets[i]->key, key) == 0) {
       return;
     }
@@ -75,7 +75,21 @@ HashMap *createMap(long capacity) {
   return newMap;
 }
 
-void eraseMap(HashMap *map, char *key) {}
+void eraseMap(HashMap *map, char *key) {
+
+  long i = hash(key, map->capacity);
+
+  while (map->buckets[i] != NULL) {
+
+    if (map->buckets[i]->key != NULL &&
+        strcmp(map->buckets[i]->key, key) == 0) {
+      map->buckets[i]->key = NULL;
+      map->size--;
+      return;
+    }
+    i=(i+1)%map->capacity;
+  }
+}
 
 Pair *searchMap(HashMap *map, char *key) {
   // se hace casi lo mismo que en insert
