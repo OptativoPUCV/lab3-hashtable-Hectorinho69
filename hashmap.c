@@ -76,7 +76,9 @@ HashMap *createMap(long capacity) {
 }
 
 void eraseMap(HashMap *map, char *key) {
-
+  // se hace basicamente lo mismo que en los ejercicios anterioes, crear un
+  // contador con la funcion hash, e ir recorriendo el areglo del mapa hasta
+  // encontrar el elemento con la key correcta
   long i = hash(key, map->capacity);
 
   while (map->buckets[i] != NULL) {
@@ -84,10 +86,11 @@ void eraseMap(HashMap *map, char *key) {
     if (map->buckets[i]->key != NULL &&
         strcmp(map->buckets[i]->key, key) == 0) {
       map->buckets[i]->key = NULL;
+      // se disminuye el tamaño del mapa
       map->size--;
       return;
     }
-    i=(i+1)%map->capacity;
+    i = (i + 1) % map->capacity;
   }
 }
 
