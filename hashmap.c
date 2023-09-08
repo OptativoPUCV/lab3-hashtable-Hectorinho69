@@ -110,6 +110,18 @@ Pair *searchMap(HashMap *map, char *key) {
   return map->buckets[i];
 }
 
-Pair *firstMap(HashMap *map) { return NULL; }
+Pair *firstMap(HashMap *map) {
+  // avanzando desde la primera clave posible(0), hasta cuando se encuentre el
+  // primer pair valido
+  for (long i = 0; i < map->capacity; i++) {
+    // se busca primer pair que sea no nulo y que tenga key no nula
+    if (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
+      // se acutaliza el current y se retorna el mismo
+      map->current = i;
+      return (map->buckets[i]);
+    }
+  }
+  return NULL;
+}
 
 Pair *nextMap(HashMap *map) { return NULL; }
