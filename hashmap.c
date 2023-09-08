@@ -124,4 +124,15 @@ Pair *firstMap(HashMap *map) {
   return NULL;
 }
 
-Pair *nextMap(HashMap *map) { return NULL; }
+Pair *nextMap(HashMap *map) {
+  // se hace lo mismo que con firstmap, pero en vez de empezar i desde cero se
+  // comienza desde el current
+  for (long i = map->current; i < map->capacity; i++) {
+    if (map->buckets[i] != NULL && map->buckets[i]->key != NULL) {
+      map->current = i;
+      return (map->buckets[i]);
+    }
+  }
+
+  return NULL;
+}
